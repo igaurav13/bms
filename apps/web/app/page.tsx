@@ -2,13 +2,31 @@ import Image, { type ImageProps } from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
 
+import { client } from "@repo/db/client";
+
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
   srcDark: string;
 };
 
-const ThemeImage = (props: Props) => {
+const ThemeImage = async (props: Props) => {
   const { srcLight, srcDark, ...rest } = props;
+
+  // create a client instance to connect to the database
+  const dbClient = client();
+
+  client.user.create({
+    data: {
+      name: "John Doe",
+      username: "john.doe@example.com",
+      password: "zxcvbnm123"
+    }
+    })
+  // you can use dbClient to perform database operations here if needed
+
+  // For example, you can fetch some data
+  const data = await dbClient.query("SELECT * FROM your_table");
+
 
   return (
     <>
